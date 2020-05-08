@@ -7,8 +7,12 @@ package com.controller;
 
 import com.dao.Conexion;
 import com.dao.Val435;
+import com.google.gson.Gson;
+import com.model.UsuarioDto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,11 +35,14 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
-            case "newUser":
+            case "val435New":
                 insertUser(request, response);
                 break;
             case "test":
                 testSession(request, response);
+                break;
+            case "val435All":
+                getAllUsers(request, response);
                 break;
         }
     }
@@ -91,6 +98,26 @@ public class UserServlet extends HttpServlet {
         out.print("usuario key "+pkUser!=null?pkUser:" NAN ");
         out.flush();
      }
+    
+    /**
+     * metodo para consultar todos los usuarios
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
+    protected void getAllUsers(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        
+        List<UsuarioDto> lst = new ArrayList<>();
+         lst=valUser.userList();
+        String usersJson = new Gson().toJson(lst);
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(usersJson);
+        out.flush();
+    }
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

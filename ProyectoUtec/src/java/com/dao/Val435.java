@@ -5,8 +5,11 @@
  */
 package com.dao;
 
+import com.model.UsuarioDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -91,5 +94,30 @@ public class Val435 {
             return false;
         }
         
+    }
+    /**
+     * consulta todos los usuarios
+     * @return List<UsuarioDto>
+     */
+    public List<UsuarioDto> userList(){
+        String sql = "select user_pass,user_name from person.usuarios where status_user=true";
+        List<UsuarioDto> lst = new ArrayList<>();
+        
+        try {
+            //sentencia preparada
+            PreparedStatement ps = conn.conectar().prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery(); // ejecuta query
+            while (rs.next()) {
+                UsuarioDto obj = new UsuarioDto();
+                obj.setUserName(rs.getString("user_name"));
+                obj.setUserPass(rs.getString("user_pass"));
+                lst.add(obj);
+            }
+            return lst;
+        } catch (Exception e) {
+            System.out.println("Error de Logueo : "+e.toString());
+            return null;
+        }
     }
 }

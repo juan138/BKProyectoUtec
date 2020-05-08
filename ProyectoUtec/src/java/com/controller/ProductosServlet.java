@@ -36,7 +36,7 @@ public class ProductosServlet extends HttpServlet {
         }
     }
 
-    // http://localhost:8080/ProyectoUtecProgra3/PrincipalServlet?action=login&user=juan&pass=s34
+    // http://localhost:8080/ProyectoUtec/PrincipalServlet?action=login&user=juan&pass=s34
     //modificar
     protected void consultar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
